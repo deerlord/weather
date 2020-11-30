@@ -5,6 +5,68 @@ import pytz
 import pydantic
 
 
+
+class BasicWeatherData(pydantic.BaseModel):
+    temperature: int
+    feels_like: int
+    pressure: float
+    humidity: float
+    clouds: float
+    visiblity: float
+    wind_speed: float
+    weather_id: int
+    rain: float
+    snow: float
+    pop: float
+
+
+class DailyWeatherData(BasicWeatherData):
+    sunset: datetime.datetime
+    sunrise: datetime.datetime
+
+
+
+class InfluxClient():
+    host: str
+    port: int = 8086
+    database: str = 'weather'
+
+    def __post_init(self):
+        self.connect()
+        self.__create_database()
+
+    def connect(self):
+        self.__client = influxdb.InfluxDBClient(
+            host=self.host,
+            port=self.port
+        )
+
+    def __create_database(self):
+        has_weather_db = (
+            True
+            for item in self.__client.get_list_database()
+            if item['name'] == 'weather'
+        )
+        if not has_weather_db:
+            self.__client.create_database(self.database)
+            return True
+        return False
+
+    def __set_retention_policy(self, period: int):
+        self.__client.create_retention_policy(
+            'current',
+            f'{period}h',
+            '1',
+            self.database
+        )
+
+
+"""
+OLDER STUFF BELOW
+"""
+
+
+
 @dataclass
 class InfluxClient():
     host: str
