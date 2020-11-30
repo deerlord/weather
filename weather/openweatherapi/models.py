@@ -2,11 +2,6 @@ from pydantic import BaseModel
 from typing import List
 
 
-class Coordinates(BaseModel):
-    lon: float
-    lat: float
-
-
 class Weather(BaseModel):
     id: str
     main: str
