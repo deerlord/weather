@@ -1,8 +1,6 @@
 from pydantic import BaseModel
 from typing import List
 
-# some documentation can be found at https://openweathermap.org/current
-
 
 class Coordinates(BaseModel):
     lon: float
@@ -87,7 +85,7 @@ class Alerts(BaseModel):
     end: int
     description:  str
 
-
+# found at https://openweathermap.org/api/one-call-api
 class APIResponse(BaseModel):
     lat: float
     lon: float
