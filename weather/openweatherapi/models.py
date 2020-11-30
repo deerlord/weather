@@ -14,12 +14,6 @@ class Weather(BaseModel):
     icon: str
 
 
-class Wind(BaseModel):
-    speed: float
-    deg: int
-    gust: float = None
-
-
 class Periodic(BaseModel):
     one_hour: float = 0.0
     three_hour: float = 0.0
