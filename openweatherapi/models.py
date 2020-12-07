@@ -1,20 +1,13 @@
-from typing import List
 from dataclasses import dataclass, field
-from datetime import datetime
+from typing import List
 
 
 @dataclass
 class Weather():
     id: int
     main: str
-    desctription: str
+    description: str
     icon: str
-
-
-@dataclass
-class Periodic():
-    one_hour: float = None
-    three_hour: float = None
 
 
 @dataclass
@@ -26,20 +19,14 @@ class Current():
     feels_like: float
     pressure: float
     humidity: float
-    dew_point: float
     uvi: float
     clouds: float
     visibility: float
     wind_speed: float
-    wind_deg: float
+    wind_deg: int
     weather: List[Weather]
-    rain: Periodic
-    snow: Periodic
-    pop: float = None
-
-    @property
-    def datetime(self) -> datetime:
-        return datetime.utcfromtimestamp(self.dt)
+    rain: dict = field(default_factory={'1h': None})
+    snow: dict = field(default_factory={'1h': None})
 
 
 @dataclass
@@ -49,10 +36,18 @@ class Minutely():
 
 
 @dataclass
-class DataDaily():
+class DailyTemp():
     day: float
-    min: float = None
-    max: float = None
+    min: float
+    max: float
+    night: float
+    eve: float
+    morn: float
+
+
+@dataclass
+class DailyFeelsLike():
+    day:  float
     night: float
     eve: float
     morn: float
@@ -63,39 +58,37 @@ class Daily():
     dt: int
     sunrise: int
     sunset: int
-    temp: DataDaily
-    feels_like: DataDaily
+    temp: DailyTemp
+    feels_like: DailyFeelsLike
     pressure: float
     humidity: float
     dew_point: float
     wind_speed: float
-    wind_deg: float
+    wind_deg: int
     weather: List[Weather]
     clouds: float
     pop: float
-    rain: float = 0.0
-    snow: float = 0.0
+    rain: float
     uvi: float
 
 
 @dataclass
-class Alerts():
+class Alert():
     sender_name: str
     event: str
     start: int
     end: int
-    description:  str
+    description: str
 
-# found at https://openweathermap.org/api/one-call-api
+
 @dataclass
 class OneCallAPIResponse():
     lat: float
     lon: float
     timezone: str
-    current: Current
-    minutely: List[Minutely]
-    hourly: List[Current]
-    daily: List[Daily]
-    alerts: List[Alerts]
-
-
+    timezone_offset: int
+    current: Current = field(default_factory={})
+    minutely: List[Minutely] = field(default_factory=[])
+    hourly: List[Current] = field(default_factory=[])
+    daily: List[Daily] = field(default_factory=[])
+    alerts: List[Alert] =  field(default_factory=[])
