@@ -25,8 +25,8 @@ class Current():
     wind_speed: float
     wind_deg: int
     weather: List[Weather]
-    rain: dict = field(default_factory={'1h': None})
-    snow: dict = field(default_factory={'1h': None})
+    rain: dict = field(default={'1h': None})
+    snow: dict = field(default={'1h': None})
 
 
 @dataclass
@@ -87,8 +87,8 @@ class OneCallAPIResponse():
     lon: float
     timezone: str
     timezone_offset: int
-    current: Current = field(default_factory={})
-    minutely: List[Minutely] = field(default_factory=[])
-    hourly: List[Current] = field(default_factory=[])
-    daily: List[Daily] = field(default_factory=[])
-    alerts: List[Alert] =  field(default_factory=[])
+    current: Current
+    minutely: List[Minutely] = field(default=[])
+    hourly: List[Current] = field(default=[])
+    daily: List[Daily] = field(default=[])
+    alerts: List[Alert] =  field(default=[])
