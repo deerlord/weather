@@ -15,4 +15,7 @@ class TestModels(unittest.TestCase):
 
     def test_one_call(self):
         data = models.OneCallAPIResponse(**fixtures.ONE_CALL_API_RESPONSE_INPUT)
-        print(data.dict())
+        self.assertDictEqual(
+            data.dict(),
+            fixtures.ONE_CALL_API_AS_DICT
+        )
