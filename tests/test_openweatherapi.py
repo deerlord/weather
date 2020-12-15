@@ -4,7 +4,7 @@ import unittest
 
 from aioresponses import aioresponses as responses
 
-from openweatherapi import api, models, exceptions
+from openweatherapi import api, exceptions, models
 from tests.fixtures import openweatherapi as fixtures
 
 
@@ -32,14 +32,14 @@ class TestAPI(unittest.TestCase):
             resps.get(
                 "https://api.openweathermap.org/data/2.5/?units=imperial",
                 payload={},
-                status=500
+                status=500,
             )
-            result = asyncio.run(self.client._api_request(url=''))
+            result = asyncio.run(self.client._api_request(url=""))
         self.assertDictEqual(result, {})
 
     def test_units(self):
-        self.client.units = 'METRIC'
-        self.assertEqual(self.client.units, 'metric')
+        self.client.units = "METRIC"
+        self.assertEqual(self.client.units, "metric")
 
     def test_one_call(self):
         with responses() as resps:
@@ -58,7 +58,7 @@ class TestAPI(unittest.TestCase):
                 "https://api.openweathermap.org/data/2.5/"
                 "onecall?lat=0.0&lon=0.0&units=imperial",
                 payload={},
-                status=200
+                status=200,
             )
             with self.assertRaises(exceptions.ResponseMalformed):
                 asyncio.run(self.client.one_call())
@@ -68,9 +68,9 @@ class TestAPI(unittest.TestCase):
             resps.get(
                 "http://openweathermap.org/img/wn/01d@2x.png",
                 body=fixtures.ICON_BINARY,
-                status=200
+                status=200,
             )
-            result = asyncio.run(self.client.icon('01d'))
+            result = asyncio.run(self.client.icon("01d"))
         self.assertEqual(result, fixtures.ICON_BINARY)
 
     def test_icon_error(self):
@@ -78,8 +78,7 @@ class TestAPI(unittest.TestCase):
             resps.get(
                 "http://openweathermap.org/img/wn/01d@2x.png",
                 body=fixtures.ICON_BINARY,
-                status=404
+                status=404,
             )
             with self.assertRaises(exceptions.IconNotFound):
-                asyncio.run(self.client.icon('01d'))
-
+                asyncio.run(self.client.icon("01d"))

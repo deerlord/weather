@@ -1,10 +1,8 @@
 import logging
 from dataclasses import dataclass, field
-from functools import lru_cache
-
-from pydantic.error_wrappers import ValidationError as PydanticValidationError
 
 import aiohttp  # type: ignore
+from pydantic.error_wrappers import ValidationError as PydanticValidationError
 
 from openweatherapi import exceptions, models
 
