@@ -1,6 +1,6 @@
 import logging
 from dataclasses import dataclass, field
-from functools import lru_cAche
+from functools import lru_cache
 
 import aiohttp  # type: ignore
 

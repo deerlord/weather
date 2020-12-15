@@ -1,17 +1,33 @@
 from dataclasses import dataclass, field
 from typing import List
+from pydantic import BaseModel
 
 
-@dataclass
-class Weather:
+class Weather(BaseModel):
     id: int
     main: str
     description: str
     icon: str
 
 
-@dataclass
-class Current:
+class Hourly(BaseModel):
+    dt: int
+    temp: float
+    feels_like: float
+    pressure: float
+    humidity: float
+    dew_point: float
+    clouds: float
+    visibility: float
+    wind_speed: float
+    wind_deg: int
+    weather: List[Weather]
+    pop: float
+    rain: dict = {"1h": 0.0}
+    snow: dict = {"1h": 0.0}
+
+
+class Current(BaseModel):
     dt: int
     sunrise: int
     sunset: int
@@ -25,18 +41,17 @@ class Current:
     wind_speed: float
     wind_deg: int
     weather: List[Weather]
-    rain: field(default={"1h": None})
-    snow: field(default={"1h": None})
+    rain: dict = {"1h": 0.0}
+    snow: dict = {"1h": 0.0}
 
 
-@dataclass
-class Minutely:
+
+class Minutely(BaseModel):
     dt: int
     precipitation: float
 
 
-@dataclass
-class DailyTemp:
+class DailyTemp(BaseModel):
     day: float
     min: float
     max: float
@@ -45,16 +60,14 @@ class DailyTemp:
     morn: float
 
 
-@dataclass
-class DailyFeelsLike:
+class DailyFeelsLike(BaseModel):
     day: float
     night: float
     eve: float
     morn: float
 
 
-@dataclass
-class Daily:
+class Daily(BaseModel):
     dt: int
     sunrise: int
     sunset: int
@@ -72,8 +85,7 @@ class Daily:
     uvi: float
 
 
-@dataclass
-class Alert:
+class Alert(BaseModel):
     sender_name: str
     event: str
     start: int
@@ -81,14 +93,13 @@ class Alert:
     description: str
 
 
-@dataclass
-class OneCallAPIResponse:
+class OneCallAPIResponse(BaseModel):
     lat: float
     lon: float
     timezone: str
     timezone_offset: int
     current: Current
-    minutely: List[Minutely] = field(default_factory=list)
-    hourly: List[Current] = field(default_factory=list)
-    daily: List[Daily] = field(default_factory=list)
-    alerts: List[Alert] = field(default_factory=list)
+    minutely: List[Minutely] = []
+    hourly: List[Hourly] = []
+    daily: List[Daily] = []
+    alerts: List[Alert] = []
