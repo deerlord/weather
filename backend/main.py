@@ -9,12 +9,13 @@ app = FastAPI()
 
 @app.get(
     "/weather/data",
-    response_model = models.OneCallAPIResponse
+    response_model=models.OneCallAPIResponse
 )
 async def weather_data():
-    client = OpenWeatherAPI(
+    client = api.OpenWeatherAPI(
         api_key=str(ENV["openweather_api_key"]),
         lat=float(ENV["latitude"]),
         lon=float(ENV["longitude"]),
     )
-    return client.one_call()
+    result = await client.one_call()
+    return result.dict()

@@ -81,8 +81,8 @@ class Daily(BaseModel):
     weather: List[Weather]
     clouds: float
     pop: float
-    rain: float
-    uvi: float
+    rain: float = 0.0
+    uvi: float = 0.0
 
 
 class Alert(BaseModel):
