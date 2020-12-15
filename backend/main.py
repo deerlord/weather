@@ -1,18 +1,18 @@
-from os import environ as ENV
-
 from fastapi import FastAPI
 
-from openweatherapi import api, models
+from backend import clients
+from openweatherapi import models
 
 app = FastAPI()
 
 
 @app.get("/weather/data", response_model=models.OneCallAPIResponse)
 async def weather_data():
-    client = api.OpenWeatherAPI(
-        api_key=str(ENV["openweather_api_key"]),
-        lat=float(ENV["latitude"]),
-        lon=float(ENV["longitude"]),
-    )
-    result = await client.one_call()
+    result = await clients.openweather().one_call()
     return result.dict()
+
+
+@app.get("/weather/icon/{icon_id}")
+async def icon(icon_id: str):
+    result = await clients.openweather().icon(icon_id)
+    return result
