@@ -14,5 +14,6 @@ async def weather_data():
 
 @app.get("/weather/icon/{icon_id}")
 async def icon(icon_id: str):
-    result = await clients.openweather().icon(icon_id)
+    client = clients.openweather()
+    result = await client.icon(icon_id)
     return result
