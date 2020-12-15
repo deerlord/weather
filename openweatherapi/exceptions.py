@@ -8,3 +8,7 @@ class NoCoordinates(OpenWeatherAPIException):
 
 class ResponseMalformed(OpenWeatherAPIException):
     pass
+
+
+class IconNotFound(OpenWeatherAPIException):
+    pass

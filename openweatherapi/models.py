@@ -3,7 +3,7 @@ from typing import List
 
 
 @dataclass
-class Weather():
+class Weather:
     id: int
     main: str
     description: str
@@ -11,7 +11,7 @@ class Weather():
 
 
 @dataclass
-class Current():
+class Current:
     dt: int
     sunrise: int
     sunset: int
@@ -25,18 +25,18 @@ class Current():
     wind_speed: float
     wind_deg: int
     weather: List[Weather]
-    rain: field(default={'1h': None})
-    snow: field(default={'1h': None})
+    rain: field(default={"1h": None})
+    snow: field(default={"1h": None})
 
 
 @dataclass
-class Minutely():
+class Minutely:
     dt: int
     precipitation: float
 
 
 @dataclass
-class DailyTemp():
+class DailyTemp:
     day: float
     min: float
     max: float
@@ -46,15 +46,15 @@ class DailyTemp():
 
 
 @dataclass
-class DailyFeelsLike():
-    day:  float
+class DailyFeelsLike:
+    day: float
     night: float
     eve: float
     morn: float
 
 
 @dataclass
-class Daily():
+class Daily:
     dt: int
     sunrise: int
     sunset: int
@@ -73,7 +73,7 @@ class Daily():
 
 
 @dataclass
-class Alert():
+class Alert:
     sender_name: str
     event: str
     start: int
@@ -82,7 +82,7 @@ class Alert():
 
 
 @dataclass
-class OneCallAPIResponse():
+class OneCallAPIResponse:
     lat: float
     lon: float
     timezone: str
