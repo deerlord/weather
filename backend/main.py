@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from starlette.responses import StreamingResponse
 
 from backend import clients
 from openweatherapi import models
@@ -16,4 +17,4 @@ async def weather_data():
 async def icon(icon_id: str):
     client = clients.openweather()
     result = await client.icon(icon_id)
-    return result
+    return StreamingResponse(result, media_type="image/png")
