@@ -1,8 +1,7 @@
-from openweatherapi import models
-
 # testing tools
 import unittest
 
+from openweatherapi import models
 from tests.fixtures import openweatherapi as fixtures
 
 
@@ -15,7 +14,4 @@ class TestModels(unittest.TestCase):
 
     def test_one_call(self):
         data = models.OneCallAPIResponse(**fixtures.ONE_CALL_API_RESPONSE_INPUT)
-        self.assertDictEqual(
-            data.dict(),
-            fixtures.ONE_CALL_API_AS_DICT
-        )
+        self.assertDictEqual(data.dict(), fixtures.ONE_CALL_API_AS_DICT)
