@@ -3,8 +3,7 @@ from openweatherapi  import models
 # testing tools
 import unittest 
 
-from tests.fixtures import openweatherapi_models
-
+from tests.fixtures import openweatherapi as fixtures
 
 
 class TestModels(unittest.TestCase):
@@ -16,6 +15,6 @@ class TestModels(unittest.TestCase):
 
     def test_one_call(self):
         data = models.OneCallAPIResponse(
-            **openweatherapi_models.ONE_CALL_API_RESPONSE_INPUT
+            **fixtures.ONE_CALL_API_RESPONSE_INPUT
         )
-        print(data)
+        print(data.dict())
