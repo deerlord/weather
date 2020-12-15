@@ -1,6 +1,6 @@
 import aiohttp  # type: ignore
 import logging
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from openweatherapi import models, exceptions
 
 
@@ -10,7 +10,7 @@ class OpenWeatherAPI():
     lat: float
     lon: float
     version: str = '2.5'
-    __units: str = 'imperial'
+    __units: str = field(init=False, default='imperial')
 
     def __post_init__(self):
         self._base_url = f'https://api.openweathermap.org/data/{self.version}'
@@ -35,7 +35,8 @@ class OpenWeatherAPI():
     ) -> dict:
         result = {}
         params.update({
-            'appid': self.api_key
+            'appid': self.api_key,
+            'units': self.units
         })
         async with aiohttp.ClientSession() as session:
             async with session.get(
