@@ -1,8 +1,8 @@
 import logging
 from dataclasses import dataclass, field
-from functools import lru_cache
 
 import aiohttp  # type: ignore
+from pydantic.error_wrappers import ValidationError as PydanticValidationError
 
 from openweatherapi import exceptions, models
 
@@ -58,19 +58,18 @@ class OpenWeatherAPI:
         )
         try:
             response = models.OneCallAPIResponse(**result)
-        except TypeError as error:
+        except PydanticValidationError as error:
             message = (
-                f"Error: Unable to parse One Call API body - {error} ; "
-                f"Called with arguments: {result}"
+                f"Error: Unable to parse One Call API body - {error}"
+                f"\nCalled with arguments: {result}"
             )
             logging.error(message)
             raise exceptions.ResponseMalformed()
         return response
 
-    @lru_cache(maxsize=10)
-    async def icon(self, icon_id: str):
+    async def icon(self, icon_id: str) -> bytes:
         result = None
-        url = f"http://openweathermap.org/img/{icon_id}@2x.png"
+        url = f"http://openweathermap.org/img/wn/{icon_id}@2x.png"
         async with aiohttp.ClientSession() as session:
             async with session.get(url) as resp:
                 if resp.status == 200:
