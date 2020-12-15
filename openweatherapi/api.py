@@ -1,5 +1,4 @@
 import aiohttp  # type: ignore
-import aiofiles
 import logging
 from dataclasses import dataclass
 from openweatherapi import models, exceptions
@@ -14,7 +13,7 @@ class OpenWeatherAPI():
     __units: str = 'imperial'
 
     def __post_init__(self):
-        self._base_url = f'https://api.openwather.org/data/{self.version}'
+        self._base_url = f'https://api.openweathermap.org/data/{self.version}'
 
     @property
     def units(self):
@@ -25,20 +24,9 @@ class OpenWeatherAPI():
         if value.lower() in ['standard', 'metric', 'imperial']:
             self.__units = value.lower()
 
-
     def _url_formatter(self, url: str) -> str:
         url = url[1:] if url.startswith('/') else url
         return f'{self._base_url}/{url}'
-
-    async def _response_handler(self, resp) -> dict:
-        result = {}
-        try:
-            result = await resp.json()
-        except RuntimeError:
-            logging.error('Attempted to decode a non-existent body')
-        except aiohttp.ContentTypeError:
-            logging.error('Response not JSON encoded')
-        return result
 
     async def _api_request(
         self,
@@ -46,8 +34,9 @@ class OpenWeatherAPI():
         params: dict = {},
     ) -> dict:
         result = {}
-        params['appid'] = self.api_key
-        params['units'] = self.__units
+        params.update({
+            'appid': self.api_key
+        })
         async with aiohttp.ClientSession() as session:
             async with session.get(
                 self._url_formatter(url),

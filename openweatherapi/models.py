@@ -88,7 +88,7 @@ class OneCallAPIResponse():
     timezone: str
     timezone_offset: int
     current: Current
-    minutely: List[Minutely] 
-    hourly: List[Current]
-    daily: List[Daily]
-    alerts: List[Alert]
+    minutely: List[Minutely] = field(default_factory=list)
+    hourly: List[Current] = field(default_factory=list)
+    daily: List[Daily] = field(default_factory=list)
+    alerts: List[Alert] = field(default_factory=list)
