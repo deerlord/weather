@@ -1,5 +1,5 @@
-from dataclasses import dataclass, field
 from typing import List
+
 from pydantic import BaseModel
 
 
@@ -43,7 +43,6 @@ class Current(BaseModel):
     weather: List[Weather]
     rain: dict = {"1h": 0.0}
     snow: dict = {"1h": 0.0}
-
 
 
 class Minutely(BaseModel):
