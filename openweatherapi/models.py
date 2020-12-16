@@ -7,8 +7,7 @@ class BaseWeatherDataModel(BaseModel):
     dt: int
 
     def data(self):
-        return self.dict(exclude='dt')
-
+        return self.dict(exclude="dt")
 
 
 class Weather(BaseModel):
