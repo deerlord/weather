@@ -1,7 +1,9 @@
 from os import environ as ENV
 
-from openweatherapi.api import OpenWeatherAPI
 from influxdb import InfluxDBClient
+
+from openweatherapi.api import OpenWeatherAPI
+
 
 def openweather():
     return OpenWeatherAPI(
@@ -17,5 +19,5 @@ def influx():
         int(ENV["influx_port"]),
         str(ENV["influx_user"]),
         str(ENV["influx_pass"]),
-        str(ENV["influx_database"])
+        str(ENV["influx_database"]),
     )

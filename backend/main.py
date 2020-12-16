@@ -18,6 +18,3 @@ async def icon(icon_id: str):
     client = clients.openweather()
     result = await client.icon(icon_id)
     return StreamingResponse(result, media_type="image/png")
-
-
-
