@@ -1,6 +1,6 @@
 from os import environ as ENV
 
-from influxdb import InfluxDBClient
+from influxdb import InfluxDBClient  # type: ignore
 
 from openweatherapi.api import OpenWeatherAPI
 
