@@ -13,7 +13,7 @@ def openweather():
     )
 
 
-def influx():
+def influxdb():
     return InfluxDBClient(
         str(ENV["influx_host"]),
         int(ENV["influx_port"]),
