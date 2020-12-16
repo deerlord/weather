@@ -2,7 +2,7 @@
 import asyncio
 import unittest
 
-from aioresponses import aioresponses as responses
+from aioresponses import aioresponses as responses  # type: ignore
 
 from openweatherapi import api, exceptions, models
 from tests.fixtures import openweatherapi as fixtures
@@ -32,10 +32,10 @@ class TestModels(unittest.TestCase):
             wind_speed=0.0,
             wind_deg=0,
             weather=[],
-            pop=0.0
+            pop=0.0,
         )
-        result = model._flatten_dict('rain')
-        self.assertDictEqual(result, {'rain_1h': 0.0, 'rain_3h': 0.0})
+        result = model._flatten_dict("rain")
+        self.assertDictEqual(result, {"rain_1h": 0.0, "rain_3h": 0.0})
 
     def test_flatten(self):
         model = models.Hourly(
@@ -50,7 +50,7 @@ class TestModels(unittest.TestCase):
             wind_speed=0.0,
             wind_deg=0,
             weather=[],
-            pop=0.0
+            pop=0.0,
         )
         result = model.flatten()
         self.assertDictEqual(result, fixtures.FLATTEN_HOURLY)

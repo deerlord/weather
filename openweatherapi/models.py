@@ -12,9 +12,7 @@ class WeatherDataBaseModel(BaseModel):
     def flatten(self):
         data = self.dict()
         dict_fields = [
-            field
-            for field, value in data.items()
-            if isinstance(value, dict)
+            field for field, value in data.items() if isinstance(value, dict)
         ]
         for field in dict_fields:
             flat = self._flatten_dict(field)
@@ -24,8 +22,7 @@ class WeatherDataBaseModel(BaseModel):
 
     def _flatten_dict(self, field: str):
         return {
-            f'{field}_{key}': value
-            for key, value in self.dict().get(field, {}).items()
+            f"{field}_{key}": value for key, value in self.dict().get(field, {}).items()
         }
 
 
@@ -48,8 +45,8 @@ class Hourly(WeatherDataBaseModel):
     wind_deg: int
     weather: List[Weather]
     pop: float
-    rain: dict = {"1h": 0.0, '3h': 0.0}
-    snow: dict = {"1h": 0.0, '3h': 0.0}
+    rain: dict = {"1h": 0.0, "3h": 0.0}
+    snow: dict = {"1h": 0.0, "3h": 0.0}
 
 
 class Current(WeatherDataBaseModel):
