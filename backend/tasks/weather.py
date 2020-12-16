@@ -1,18 +1,15 @@
-from backend.clients import openweather, influxdb
-from openweatherapi import models
+import asyncio
+
+from backend.clients import influxdb, openweather
 
 
 async def periodic_weather():
     data = await openweather().one_call()
     current = data.current.dict()
-    current_time = current.pop('dt')
-    weather_points = current.pop('weather')
-    rain_points = [current.pop('rain', [])]
-    snow_points = [current.pop('snow', [])]
     current_points = [
         {
             "measurement": "current",
-            "time": current_time,
+            "time": current["dt"],
             "fields": current,
         }
     ]
@@ -36,24 +33,4 @@ async def periodic_weather():
     influxdb().write_points(daily_points)
 
 
-def parse_current(current: models.Current):
-    current = current.dict()
-    time = current.pop('dt')
-    rain = current.pop('rain', {})
-    snow = current.pop('snow', {})
-    rain_one_hour = rain.get('1h', None)
-    rain_three_hour = rain.get('3h', None)
-    snow_one_hour = snow.get('1h', None)
-    snow_three_hour = snow.get('3h', None)
-    weather_points = [
-        w
-        for w in current.pop('weather')
-    ]
-    current_measurement = {
-        "measurement": "current",
-        "time": time,
-        "fields": 
-
-
-import asyncio
 asyncio.run(periodic_weather())
