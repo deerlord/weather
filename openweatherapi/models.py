@@ -3,6 +3,14 @@ from typing import List
 from pydantic import BaseModel
 
 
+class BaseWeatherDataModel(BaseModel):
+    dt: int
+
+    def data(self):
+        return self.dict(exclude='dt')
+
+
+
 class Weather(BaseModel):
     id: int
     main: str
@@ -10,8 +18,7 @@ class Weather(BaseModel):
     icon: str
 
 
-class Hourly(BaseModel):
-    dt: int
+class Hourly(BaseWeatherDataModel):
     temp: float
     feels_like: float
     pressure: float
@@ -27,8 +34,7 @@ class Hourly(BaseModel):
     snow: dict = {"1h": 0.0}
 
 
-class Current(BaseModel):
-    dt: int
+class Current(BaseWeatherDataModel):
     sunrise: int
     sunset: int
     temp: float
@@ -45,8 +51,7 @@ class Current(BaseModel):
     snow: dict = {"1h": 0.0}
 
 
-class Minutely(BaseModel):
-    dt: int
+class Minutely(BaseWeatherDataModel):
     precipitation: float
 
 
@@ -66,8 +71,7 @@ class DailyFeelsLike(BaseModel):
     morn: float
 
 
-class Daily(BaseModel):
-    dt: int
+class Daily(BaseWeatherDataModel):
     sunrise: int
     sunset: int
     temp: DailyTemp
