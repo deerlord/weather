@@ -19,6 +19,42 @@ class TestModels(unittest.TestCase):
         data = models.OneCallAPIResponse(**fixtures.ONE_CALL_API_RESPONSE_INPUT)
         self.assertDictEqual(data.dict(), fixtures.ONE_CALL_API_AS_DICT)
 
+    def test_flatten_dict(self):
+        model = models.Hourly(
+            dt=123456,
+            temp=0.0,
+            feels_like=0.0,
+            pressure=0.0,
+            humidity=0.0,
+            dew_point=0.0,
+            clouds=0.0,
+            visibility=0.0,
+            wind_speed=0.0,
+            wind_deg=0,
+            weather=[],
+            pop=0.0
+        )
+        result = model._flatten_dict('rain')
+        self.assertDictEqual(result, {'rain_1h': 0.0, 'rain_3h': 0.0})
+
+    def test_flatten(self):
+        model = models.Hourly(
+            dt=123456,
+            temp=0.0,
+            feels_like=0.0,
+            pressure=0.0,
+            humidity=0.0,
+            dew_point=0.0,
+            clouds=0.0,
+            visibility=0.0,
+            wind_speed=0.0,
+            wind_deg=0,
+            weather=[],
+            pop=0.0
+        )
+        result = model.flatten()
+        self.assertDictEqual(result, fixtures.FLATTEN_HOURLY)
+
 
 class TestAPI(unittest.TestCase):
     def setUp(self):

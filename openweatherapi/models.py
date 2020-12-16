@@ -3,11 +3,30 @@ from typing import List
 from pydantic import BaseModel
 
 
-class BaseWeatherDataModel(BaseModel):
+class WeatherDataBaseModel(BaseModel):
     dt: int
 
     def data(self):
         return self.dict(exclude="dt")
+
+    def flatten(self):
+        data = self.dict()
+        dict_fields = [
+            field
+            for field, value in data.items()
+            if isinstance(value, dict)
+        ]
+        for field in dict_fields:
+            flat = self._flatten_dict(field)
+            data.pop(field)
+            data.update(flat)
+        return data
+
+    def _flatten_dict(self, field: str):
+        return {
+            f'{field}_{key}': value
+            for key, value in self.dict().get(field, {}).items()
+        }
 
 
 class Weather(BaseModel):
@@ -17,7 +36,7 @@ class Weather(BaseModel):
     icon: str
 
 
-class Hourly(BaseWeatherDataModel):
+class Hourly(WeatherDataBaseModel):
     temp: float
     feels_like: float
     pressure: float
@@ -29,11 +48,11 @@ class Hourly(BaseWeatherDataModel):
     wind_deg: int
     weather: List[Weather]
     pop: float
-    rain: dict = {"1h": 0.0}
-    snow: dict = {"1h": 0.0}
+    rain: dict = {"1h": 0.0, '3h': 0.0}
+    snow: dict = {"1h": 0.0, '3h': 0.0}
 
 
-class Current(BaseWeatherDataModel):
+class Current(WeatherDataBaseModel):
     sunrise: int
     sunset: int
     temp: float
@@ -50,7 +69,7 @@ class Current(BaseWeatherDataModel):
     snow: dict = {"1h": 0.0}
 
 
-class Minutely(BaseWeatherDataModel):
+class Minutely(WeatherDataBaseModel):
     precipitation: float
 
 
@@ -70,7 +89,7 @@ class DailyFeelsLike(BaseModel):
     morn: float
 
 
-class Daily(BaseWeatherDataModel):
+class Daily(WeatherDataBaseModel):
     sunrise: int
     sunset: int
     temp: DailyTemp
