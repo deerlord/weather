@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from starlette.responses import StreamingResponse
+from starlette.responses import StreamingResponse  # type: ignore
 
 from backend import clients
 from openweatherapi import models
