@@ -3,6 +3,14 @@ import asyncio
 from backend.clients import influxdb, openweather
 
 
+
+async def fetch_data():
+    client = openweather()
+    data = await client.one_call()
+    
+
+
+
 async def periodic_weather():
     data = await openweather().one_call()
     current = data.current.dict()
@@ -33,4 +41,5 @@ async def periodic_weather():
     influxdb().write_points(daily_points)
 
 
-asyncio.run(periodic_weather())
+
+print(asyncio.run(fetch_data()))
