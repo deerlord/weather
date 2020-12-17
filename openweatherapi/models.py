@@ -22,7 +22,7 @@ class WeatherDataBaseModel(BaseModel):
 
     def _flatten_dict(self, field: str):
         return {
-            f"{field}_{key}": value for key, value in self.dict().get(field, {}).items()
+            f"{field}_{key}": value for key, value in getattr(self, field, {}).items()
         }
 
 
