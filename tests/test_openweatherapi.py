@@ -55,6 +55,10 @@ class TestModels(unittest.TestCase):
         result = model.flatten()
         self.assertDictEqual(result, fixtures.FLATTEN_HOURLY)
 
+    def test_weather_ids(self):
+        data = models.OneCallAPIResponse(**fixtures.ONE_CALL_API_RESPONSE_INPUT)
+        self.assertEqual([x for x in data.current.weather_ids()], [501, 201])
+
 
 class TestAPI(unittest.TestCase):
     def setUp(self):
