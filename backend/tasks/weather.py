@@ -5,24 +5,19 @@ from openweatherapi import models
 
 
 async def munge_one_call(data: models.OneCallAPIResponse):
-    current = [munge(measurement='current', data=data.current.flatten())]
+    current = [munge(measurement="current", data=data.current.flatten())]
     minutely = [
-        munge(measurement='minutely', data=minutely.flatten())
+        munge(measurement="minutely", data=minutely.flatten())
         for minutely in data.minutely
     ]
     hourly = [
-        munge(measurement='hourly', data=hourly.flatten())
-        for hourly in data.hourly
+        munge(measurement="hourly", data=hourly.flatten()) for hourly in data.hourly
     ]
     return (current, minutely, hourly)
 
 
 def munge(measurement: str, data: dict):
-    return {
-        'measurement': measurement,
-        'time': data.pop('dt'),
-        'fields': data
-    }
+    return {"measurement": measurement, "time": data.pop("dt"), "fields": data}
 
 
 async def periodic_weather():
@@ -53,7 +48,6 @@ async def periodic_weather():
         for daily in data.daily
     ]
     influxdb().write_points(daily_points)
-
 
 
 client = openweather()
