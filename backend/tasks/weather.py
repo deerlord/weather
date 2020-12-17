@@ -1,5 +1,3 @@
-import asyncio
-
 from backend.clients import influxdb, openweather
 from openweatherapi import models
 
@@ -13,15 +11,12 @@ async def munge_one_call(data: models.OneCallAPIResponse):
     hourly = [
         munge(measurement="hourly", data=hourly.flatten()) for hourly in data.hourly
     ]
-    print(data.daily[0].flatten())
-    daily = [
-        munge(measurement="daily", data=daily.flatten()) for daily in data.daily
-    ]
-    return (current, minutely, hourly)
+    daily = [munge(measurement="daily", data=daily.flatten()) for daily in data.daily]
+    return (current, minutely, hourly, daily)
 
 
 def munge(measurement: str, data: dict):
-    data.pop('weather', [])
+    data.pop("weather", [])
     return {"measurement": measurement, "time": data.pop("dt"), "fields": data}
 
 
@@ -53,13 +48,3 @@ async def periodic_weather():
         for daily in data.daily
     ]
     influxdb().write_points(daily_points)
-
-
-
-import pprint
-
-pp = pprint.PrettyPrinter(indent=4)
-client = openweather()
-data = asyncio.run(client.one_call())
-result = asyncio.run(munge_one_call(data))
-pp.pprint(result)
