@@ -65,6 +65,10 @@ class Current(WeatherDataBaseModel):
     rain: dict = {"1h": 0.0}
     snow: dict = {"1h": 0.0}
 
+    def weather_ids(self):
+        for weather in self.weather:
+            yield weather.id
+
 
 class Minutely(WeatherDataBaseModel):
     precipitation: float
