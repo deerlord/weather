@@ -1,12 +1,28 @@
 import asyncio
 
 from backend.clients import influxdb, openweather
+from openweatherapi import models
 
 
-async def fetch_data():
-    client = openweather()
-    data = await client.one_call()
-    return data
+async def munge_one_call(data: models.OneCallAPIResponse):
+    current = [munge(measurement='current', data=data.current.flatten())]
+    minutely = [
+        munge(measurement='minutely', data=minutely.flatten())
+        for minutely in data.minutely
+    ]
+    hourly = [
+        munge(measurement='hourly', data=hourly.flatten())
+        for hourly in data.hourly
+    ]
+    return (current, minutely, hourly)
+
+
+def munge(measurement: str, data: dict):
+    return {
+        'measurement': measurement,
+        'time': data.pop('dt'),
+        'fields': data
+    }
 
 
 async def periodic_weather():
@@ -39,4 +55,7 @@ async def periodic_weather():
     influxdb().write_points(daily_points)
 
 
-print(asyncio.run(fetch_data()))
+
+client = openweather()
+data = asyncio.run(client.one_call())
+print(asyncio.run(munge_one_call(data))[0])
