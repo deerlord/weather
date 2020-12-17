@@ -157,7 +157,7 @@ ONE_CALL_API_AS_DICT = {
             ],
             "pop": 0.99,
             "rain": {"1h": 2.46},
-            "snow": {"1h": 0.0, "3h": 0.0},
+            "snow": {"1h": 0.0},
         }
     ],
     "daily": [
@@ -225,7 +225,5 @@ FLATTEN_HOURLY = {
     "weather": [],
     "pop": 0.0,
     "rain_1h": 0.0,
-    "rain_3h": 0.0,
     "snow_1h": 0.0,
-    "snow_3h": 0.0,
 }

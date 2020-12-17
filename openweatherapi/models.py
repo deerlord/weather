@@ -45,8 +45,8 @@ class Hourly(WeatherDataBaseModel):
     wind_deg: int
     weather: List[Weather]
     pop: float
-    rain: dict = {"1h": 0.0, "3h": 0.0}
-    snow: dict = {"1h": 0.0, "3h": 0.0}
+    rain: dict = {"1h": 0.0}
+    snow: dict = {"1h": 0.0}
 
 
 class Current(WeatherDataBaseModel):

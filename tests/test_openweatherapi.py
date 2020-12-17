@@ -35,7 +35,7 @@ class TestModels(unittest.TestCase):
             pop=0.0,
         )
         result = model._flatten_dict("rain")
-        self.assertDictEqual(result, {"rain_1h": 0.0, "rain_3h": 0.0})
+        self.assertDictEqual(result, {"rain_1h": 0.0})
 
     def test_flatten(self):
         model = models.Hourly(
