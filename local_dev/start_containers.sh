@@ -15,6 +15,8 @@ fi
 docker volume create dev.influxdb
 docker stop dev.influxdb
 docker rm dev.influxdb
+docker stop dev.redis
+docker rm dev.redis
 
 docker run -p 8086:8086 \
   -v dev.influxdb:/var/lib/influxdb \
@@ -23,3 +25,7 @@ docker run -p 8086:8086 \
   -e INFLUXDB_ADMIN_PASSWORD=influxdb_pass \
   -e INFLUXDB_DB=influxdb_database \
   -d influxdb
+
+docker run -p 6379:6379 \
+  --name dev.redis \
+  -d redis redis-server
