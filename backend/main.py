@@ -2,10 +2,8 @@ from fastapi import FastAPI
 from starlette.responses import StreamingResponse  # type: ignore
 
 from backend import clients
-from openweatherapi import models
-
 from backend.models import Measurement
-
+from openweatherapi import models
 
 app = FastAPI()
 
@@ -32,5 +30,8 @@ async def current(time: int, delta: int):
 
 @app.get("/weather/{measurement}/")
 async def hourly(time: int, delta: int, measurement: Measurement):
-    query = f"select * from {measurement} where (time >= {time}) and (time <= ({time} + {delta}))"
+    query = (
+        "select * from {measurement}"
+        f"where (time >= {time}) and (time <= ({time} + {delta}))"
+    )
     return clients.influxdb().query(query)
