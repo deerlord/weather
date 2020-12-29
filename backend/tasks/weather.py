@@ -1,5 +1,14 @@
 from backend.clients import influxdb, openweather
 from openweatherapi import models
+from pydantic import BaseModel
+from typing import List
+
+
+class TableData(BaseModel):
+    measurement: str
+    time: int
+    fields: dict
+
 
 
 async def munge_one_call(data: models.OneCallAPIResponse):
@@ -20,31 +29,38 @@ def munge(measurement: str, data: dict):
     return {"measurement": measurement, "time": data.pop("dt"), "fields": data}
 
 
+async def write_points(points: List[TableData]):
+    for point in points:
+        influxdb().write_points(point.dict())
+
+
+async def create_points(measurement: str, data: List[BaseModel]):
+    for point in data:
+        yield TableData(
+            measurement=measurement,
+            time=point.dt,
+            fields=point.dict()
+        )
+
+
 async def periodic_weather():
     data = await openweather().one_call()
-    current = data.current.dict()
-    current_points = [
-        {
-            "measurement": "current",
-            "time": current["dt"],
-            "fields": current,
-        }
-    ]
-    print(current_points)
-    influxdb().write_points(current_points)
-    return
-    hourly_points = [
-        {"measurement": "hourly", "time": hourly.dt, "fields": hourly.dict()}
-        for hourly in data.hourly
-    ]
-    influxdb().write_points(hourly_points)
-    minutely_points = [
-        {"measurement": "minutely", "time": minutely.dt, "fields": minutely.dict()}
-        for minutely in data.minutely
-    ]
-    influxdb().write_points(minutely_points)
-    daily_points = [
-        {"measurement": "daily", "time": daily.dt, "fields": daily.dict()}
-        for daily in data.daily
-    ]
-    influxdb().write_points(daily_points)
+    current_points = create_points(
+        measurement='current',
+        data=[data.current]
+    )]
+    hourly_points = create_points(
+        measurement='hourly',
+        data=data.hourly
+    )
+    minutely_points = create_points(
+        measurement='minutely',
+        data=data.minutely
+    )
+    daily_points = create_points(
+        measurement='daily',
+        data=data.minutely
+    )
+    for points in [current_points, hourly_points, minutely_points, daily_points]:
+        write_points(points=points)
+
