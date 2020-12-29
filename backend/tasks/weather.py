@@ -1,20 +1,12 @@
 from typing import List
 
-from pydantic import BaseModel, Field
-
 from backend.clients import influxdb, openweather
 from openweatherapi import models
-
-from typing import List, Dict
 
 
 def weather_points(measurement: str, data: List[models.WeatherDataBaseModel]):
     for point in data:
-        yield {
-            'measurement': measurement,
-            'time': point.dt,
-            'fields': point.dict()
-        }
+        yield {"measurement": measurement, "time": point.dt, "fields": point.dict()}
 
 
 async def weather_data():
