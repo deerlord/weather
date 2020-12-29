@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Before running this script, use
+# $ source backend/env
+
 docker volume create dev.influxdb
 docker stop dev.influxdb
 docker rm dev.influxdb
