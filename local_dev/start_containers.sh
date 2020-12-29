@@ -1,4 +1,13 @@
 #!/bin/bash
+#
+# Start up services that backend needs running
+# This includes influxdb, redis?, 
+
+if [[ ! -f backend/env ]]
+then
+  echo 'No backend/env file present, see backend/env.example'
+  exit 1
+fi
 
 docker volume create dev.influxdb
 docker stop dev.influxdb
