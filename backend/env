@@ -1,0 +1,8 @@
+export openweather_api_key='299a2d64a6e4c6f29287f2d58f66bcb3'
+export latitude='30.41'
+export longitude='-97.74'
+export influx_host='localhost'
+export influx_port=8086
+export influx_user='admin'
+export influx_pass='admin'
+export influx_database='weather'
