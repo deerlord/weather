@@ -3,10 +3,14 @@ from typing import List
 from backend.clients import influxdb, openweather
 from openweatherapi import models
 
+from copy import deepcopy
+
 
 def weather_points(measurement: str, data: List[models.WeatherDataBaseModel]):
     for point in data:
-        yield {"measurement": measurement, "time": point.dt, "fields": point.dict()}
+        _data = deepcopy(point.dict())
+        _data.pop('dt')
+        yield {"measurement": measurement, "time": point.dt, "fields": _data}
 
 
 async def weather_data():
