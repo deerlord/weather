@@ -57,7 +57,7 @@ async def weather_data():
     current_points = weather_points(data=[data.current], munge=munge_weather_data)
     hourly_points = weather_points(data=data.hourly, munge=munge_weather_data)
     minutely_points = weather_points(data=data.minutely, munge=munge_weather_data)
-    daily_points = weather_points(data=data.minutely, munge=munge_weather_data)
+    daily_points = weather_points(data=data.daily, munge=munge_weather_data)
     alert_points = weather_points(data=data.alerts, munge=munge_alert_data)
     for points in [
         current_points,
