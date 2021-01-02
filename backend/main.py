@@ -17,9 +17,12 @@ async def icon(icon_id: str):
 async def weather(time: int, delta: int, measurement: Measurement):
     query = (
         f"select * from {measurement} "
-        f"where (time >= {time}) and (time <= ({time} + {delta}))"
+        "where (time >= $time) and (time <= ($time + $delta))"
     )
-    client = clients.influxdb()
-    client.switch_database("weather")
-    retval = client.query(query=query, epoch="s")
+    retval = clients.influxdb().query(
+        query=query,
+        bind_params={"time": time, "delta": delta},
+        epoch="s",
+        database="weather",
+    )
     return retval[(f"{measurement}", None)]
