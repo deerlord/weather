@@ -14,14 +14,16 @@ async def icon(icon_id: str):
 
 
 @app.get("/weather/{measurement}")
-async def weather(time: int, delta: int, measurement: Measurement):
+async def weather(time: str, delta: int, measurement: Measurement):
+    time = str(time) + '000000000'
+    delta = str(delta) + '000000000'
     query = (
         f"select * from {measurement} "
-        "where (time >= $time) and (time <= ($time + $delta))"
+        f"where (time >= {time}) and (time <= ({time} + {delta}))"
     )
+    print(query)
     retval = clients.influxdb().query(
         query=query,
-        bind_params={"time": time, "delta": delta},
         epoch="s",
         database="weather",
     )
