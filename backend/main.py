@@ -14,9 +14,9 @@ async def icon(icon_id: str):
 
 
 @app.get("/weather/{measurement}")
-async def weather(time: str, delta: int, measurement: Measurement):
-    time = str(time) + '000000000'
-    delta = str(delta) + '000000000'
+async def weather(time: str, delta: str, measurement: Measurement):
+    time = time + "000000000"
+    delta = delta + "000000000"
     query = (
         f"select * from {measurement} "
         f"where (time >= {time}) and (time <= ({time} + {delta}))"
