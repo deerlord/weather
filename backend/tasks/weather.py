@@ -66,4 +66,4 @@ async def weather_data():
         daily_points,
         alert_points,
     ]:
-        influxdb().write_points(points=points,time_precision='s')
+        influxdb().write_points(points=points, time_precision="s")
