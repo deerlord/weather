@@ -40,7 +40,7 @@ class Hourly(WeatherDataBaseModel):
     humidity: float
     dew_point: float
     clouds: float
-    visibility: float
+    visibility: int
     wind_speed: float
     wind_deg: int
     weather: List[Weather]
@@ -58,7 +58,7 @@ class Current(WeatherDataBaseModel):
     humidity: float
     uvi: float
     clouds: float
-    visibility: float
+    visibility: int
     wind_speed: float
     wind_deg: int
     weather: List[Weather]
