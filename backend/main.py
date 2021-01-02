@@ -20,6 +20,6 @@ async def weather(time: int, delta: int, measurement: Measurement):
         f"where (time >= {time}) and (time <= ({time} + {delta}))"
     )
     client = clients.influxdb()
-    client.switch_database('weather')
+    client.switch_database("weather")
     retval = client.query(query=query, epoch="s")
     return retval[(f"{measurement}", None)]

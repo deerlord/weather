@@ -7,14 +7,10 @@ from openweatherapi import models
 
 def create_database():
     client = influxdb()
-    client.create_database('weather')
+    client.create_database("weather")
     client.create_retention_policy(
-        name='weather',
-        duration='30d',
-        replication=1,
-        database='weather'
+        name="weather", duration="30d", replication=1, database="weather"
     )
-
 
 
 def weather_points(data: List[models.WeatherDataBaseModel], munge: Callable):
