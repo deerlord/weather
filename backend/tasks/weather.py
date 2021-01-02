@@ -5,6 +5,18 @@ from backend.clients import influxdb, openweather
 from openweatherapi import models
 
 
+def create_database():
+    client = influxdb()
+    client.create_database('weather')
+    client.create_retention_policy(
+        name='weather',
+        duration='30d',
+        replication=1,
+        database='weather'
+    )
+
+
+
 def weather_points(data: List[models.WeatherDataBaseModel], munge: Callable):
     for each in data:
         dt, munged = munge(data=each)
@@ -53,6 +65,7 @@ def munge_alert_data(data: models.Alert) -> tuple:
 
 
 async def weather_data():
+    create_database()
     data = await openweather().one_call()
     current_points = weather_points(data=[data.current], munge=munge_weather_data)
     hourly_points = weather_points(data=data.hourly, munge=munge_weather_data)
