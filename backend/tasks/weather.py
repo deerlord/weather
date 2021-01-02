@@ -29,7 +29,7 @@ def munge_weather_data(data: models.WeatherDataBaseModel) -> tuple:
     """
     # get name from model
     measurement = type(data).__name__.lower()
-    # deep copy so we dont mess up the mode
+    # deep copy so we dont mess up the model
     data = deepcopy(data.dict())
     # find fields that area dicts
     flatten_keys = [field for field, value in data.items() if isinstance(value, dict)]
@@ -66,4 +66,4 @@ async def weather_data():
         daily_points,
         alert_points,
     ]:
-        influxdb().write_points(points=points)
+        influxdb().write_points(points=points,time_precision='s')

@@ -16,8 +16,8 @@ async def icon(icon_id: str):
 @app.get("/weather/{measurement}")
 async def weather(time: int, delta: int, measurement: Measurement):
     query = (
-        f"select * from {measurement} "
+        f"select * from weather.{measurement} "
         f"where (time >= {time}) and (time <= ({time} + {delta}))"
     )
-    retval = clients.influxdb().query(query)
+    retval = clients.influxdb().query(query=query,epoch='s')
     return retval[(f"{measurement}", None)]
