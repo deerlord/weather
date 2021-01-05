@@ -21,7 +21,6 @@ async def weather(time: str, delta: str, measurement: Measurement):
         f"select * from {measurement} "
         f"where (time >= {time}) and (time <= ({time} + {delta}))"
     )
-    print(query)
     retval = clients.influxdb().query(
         query=query,
         epoch="s",
