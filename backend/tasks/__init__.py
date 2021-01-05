@@ -1,11 +1,12 @@
 from dataclasses import dataclass
 from functools import wraps
-from backend.utils import redis
 
+from backend.utils import redis
+import logging
 
 @dataclass
-class Task():
-    
+class Task:
+
     request_id: str
 
     def __post_init__(self):
@@ -16,11 +17,12 @@ class Task():
         def wrapper(*args, **kwargs):
             try:
                 result = func(*args, **kwargs)
-                redis.complete(request_id=request_id, result=result)
+                redis.complete(request_id=self.request_id, result=result)
             except Exception as error:
-                message = f'{error}'
+                message = f"{error}"
                 logging.error(message)
-                redis.error(request_id=request_id, result=result)
+                redis.error(request_id=self.request_id, result=result)
                 raise error
             return result
+
         return wrapper
