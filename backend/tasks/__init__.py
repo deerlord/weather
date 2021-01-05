@@ -1,8 +1,9 @@
+import logging
 from dataclasses import dataclass
 from functools import wraps
 
 from backend.utils import redis
-import logging
+
 
 @dataclass
 class Task:

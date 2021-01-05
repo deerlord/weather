@@ -38,26 +38,28 @@ def munge_weather_data(data: models.WeatherDataBaseModel) -> tuple:
     # get name from model
     measurement = type(data).__name__.lower()
     # deep copy so we dont mess up the model
-    data = deepcopy(data.dict())
+    data_dict = deepcopy(data.dict())
     # find fields that area dicts
-    flatten_keys = [field for field, value in data.items() if isinstance(value, dict)]
+    flatten_keys = [
+        field for field, value in data_dict.items() if isinstance(value, dict)
+    ]
     # create {measurement: fields} map
-    retval = {f"{measurement}_{field}": data.pop(field) for field in flatten_keys}
+    retval = {f"{measurement}_{field}": data_dict.pop(field) for field in flatten_keys}
     # check for weather
-    weather = data.pop("weather", {})
+    weather = data_dict.pop("weather", {})
     # get weather IDs and serialize them
     if weather:
         ids = [each["id"] for each in weather]
         retval.update({f"{measurement}_weather": {"ids": str(ids)}})
     # include rest of model data (int/float/str fields)
-    retval.update({measurement: data})
+    retval.update({measurement: data_dict})
     # include 'dt' value once
-    return (data.pop("dt"), retval)
+    return (data_dict.pop("dt"), retval)
 
 
 def munge_alert_data(data: models.Alert) -> tuple:
-    data = deepcopy(data.dict())
-    return (data["start"], {"alert": data})
+    data_dict = deepcopy(data.dict())
+    return (data_dict["start"], {"alert": data_dict})
 
 
 async def weather_data():
