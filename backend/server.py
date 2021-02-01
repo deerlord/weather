@@ -1,10 +1,9 @@
 from fastapi import FastAPI
+from openweathermap import api
 from starlette.responses import StreamingResponse  # type: ignore
 
 from backend import clients, models
-
-from openweathermap import api
-
+from typing import Dict, Any
 
 app = FastAPI()
 
@@ -22,7 +21,9 @@ async def current(lat: float, lon: float):
     see https://openweathermap.org/widgets-constructor for example
     """
     client = api.OpenWeatherData(appid="")  # pull appid from settings
-    data = await client.one_call(lat=lat, lon=lon, units="imperial")  # pull units from settings
+    data = await client.one_call(
+        lat=lat, lon=lon, units="imperial"
+    )  # pull units from settings
     air_pollution_forecast = await client.air_pollution_forecast(lat=lat, lon=lon)
     uvi_forecast = await client.uvi_forecast(lat=lat, lon=lon)
     # needs model
