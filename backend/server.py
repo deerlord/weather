@@ -4,7 +4,7 @@ from fastapi import FastAPI
 from openweathermap import api
 from starlette.responses import StreamingResponse  # type: ignore
 
-from backend import clients, models, cache
+from backend import cache, clients, models
 
 app = FastAPI()
 
@@ -33,7 +33,7 @@ async def current(lat: float, lon: float):
         "data": data,
         "air_pollution_forecast": air_pollution_forecast,
         "uvi_forecast": uvi_forecast,
-        "location": location
+        "location": location,
     }  # type: Dict[str, Any]
     return result
 
