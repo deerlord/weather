@@ -12,3 +12,11 @@ class Measurement(str, Enum):
     hourly_weather = "hourly_weather"
     minutely = "minutely"
     daily = "daily"
+
+
+class MapLayer(str, Enum):
+    clouds = "clouds"
+    precipitation = "precipitation"
+    pressure = "pressure"
+    wind = "wind"
+    temp = "temp"
