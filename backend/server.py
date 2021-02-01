@@ -1,9 +1,10 @@
+from typing import Any, Dict
+
 from fastapi import FastAPI
 from openweathermap import api
 from starlette.responses import StreamingResponse  # type: ignore
 
-from backend import clients, models
-from typing import Dict, Any
+from backend import clients, models, cache
 
 app = FastAPI()
 
@@ -26,11 +27,13 @@ async def current(lat: float, lon: float):
     )  # pull units from settings
     air_pollution_forecast = await client.air_pollution_forecast(lat=lat, lon=lon)
     uvi_forecast = await client.uvi_forecast(lat=lat, lon=lon)
+    location = cache.location(lat=lat, lon=lon)
     # needs model
     result = {
         "data": data,
         "air_pollution_forecast": air_pollution_forecast,
         "uvi_forecast": uvi_forecast,
+        "location": location
     }  # type: Dict[str, Any]
     return result
 
