@@ -8,14 +8,15 @@ from backend import cache, clients, models
 
 app = FastAPI()
 
+# caching around endpoints?
+
 
 @app.get("/weather/icon/{icon_id}")
 async def icon(icon_id: str):
-    result = await api.icon(icon_id)
+    result = await clients.openweather().icon(icon_id)
     return StreamingResponse(result, media_type="image/png")
 
 
-# needs caching around endpoint?
 @app.get("/weather/widget/overview")
 async def current(lat: float, lon: float):
     """
@@ -30,10 +31,10 @@ async def current(lat: float, lon: float):
     location = cache.location(lat=lat, lon=lon)
     # needs model
     result = {
-        "data": data,
-        "air_pollution_forecast": air_pollution_forecast.list,
-        "uvi_forecast": uvi_forecast,
-        "location": location,
+        "data": data.dict(),
+        "air_pollution_forecast": air_pollution_forecast.dict(),
+        "uvi_forecast": uvi_forecast.dict(),
+        "location": location.dict(),
     }  # type: Dict[str, Any]
     return result
 
