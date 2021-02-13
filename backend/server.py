@@ -17,10 +17,7 @@ async def icon(icon_id: str):
 
 
 # needs caching around endpoint?
-@app.get(
-    "/weather/widget/overview",
-   response_model=models.WidgetOverview
-)
+@app.get("/weather/widget/overview", response_model=models.WidgetOverview)
 async def current(lat: float, lon: float):
     """
     see https://openweathermap.org/widgets-constructor for example

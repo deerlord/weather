@@ -1,7 +1,8 @@
+from enum import Enum
+from typing import List
+
 from openweathermap import models
 from pydantic import BaseModel
-from typing import List
-from enum import Enum
 
 
 class WidgetOverview(BaseModel):
@@ -17,4 +18,3 @@ class MapLayer(str, Enum):
     pressure = "pressure"
     wind = "wind"
     temp = "temp"
-
