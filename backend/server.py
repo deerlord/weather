@@ -25,14 +25,13 @@ async def current(lat: float, lon: float):
     """
     see https://openweathermap.org/widgets-constructor for example
     """
-    client = api.OpenWeatherData(appid="299a2d64a6e4c6f29287f2d58f66bcb3")  # pull appid from settings
+    client = api.OpenWeatherData(appid="")  # pull appid from settings
     data = await client.one_call(
         lat=lat, lon=lon, units="imperial"
     )  # pull units from settings
     air_pollution_forecast = await client.air_pollution_forecast(lat=lat, lon=lon)
     uvi_forecast = await client.uvi_forecast(lat=lat, lon=lon, cnt=8)
     location = await cache.location(lat=lat, lon=lon)
-    # needs model
     result = {
         "data": data,
         "air_pollution_forecast": air_pollution_forecast.list,
