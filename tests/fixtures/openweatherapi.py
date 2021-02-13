@@ -227,3 +227,163 @@ FLATTEN_HOURLY = {
     "rain_1h": 0.0,
     "snow_1h": 0.0,
 }
+
+
+AIR_POLLUTION = {
+    "coord": {"lat": 50.0, "lon": 50.0},
+    "list": [
+        {
+            "dt": 1605916800,
+            "main": {"aqi": 1.0},
+            "components": {
+                "co": 211.954,
+                "no": 0.0,
+                "no2": 0.217,
+                "o3": 72.956,
+                "so2": 0.514,
+                "pm2_5": 2.563,
+                "pm10": 5.757,
+                "nh3": 0.216,
+            },
+        },
+        {
+            "dt": 1605920400,
+            "main": {"aqi": 1.0},
+            "components": {
+                "co": 211.954,
+                "no": 0.0,
+                "no2": 0.201,
+                "o3": 72.241,
+                "so2": 0.469,
+                "pm2_5": 2.662,
+                "pm10": 5.622,
+                "nh3": 0.224,
+            },
+        },
+        {
+            "dt": 1605924000,
+            "main": {"aqi": 1.0},
+            "components": {
+                "co": 213.623,
+                "no": 0.0,
+                "no2": 0.185,
+                "o3": 71.526,
+                "so2": 0.443,
+                "pm2_5": 2.724,
+                "pm10": 5.51,
+                "nh3": 0.23,
+            },
+        },
+        {
+            "dt": 1605927600,
+            "main": {"aqi": 1.0},
+            "components": {
+                "co": 213.623,
+                "no": 0.0,
+                "no2": 0.17,
+                "o3": 72.241,
+                "so2": 0.432,
+                "pm2_5": 2.812,
+                "pm10": 5.687,
+                "nh3": 0.234,
+            },
+        },
+    ],
+}
+
+
+UVI_FORECAST = [
+    {
+        "lat": 37.75,
+        "lon": -122.37,
+        "date_iso": "2017-06-27T12:00:00Z",
+        "date": 1498564800,
+        "value": 10.1,
+    },
+    {
+        "lat": 37.75,
+        "lon": -122.37,
+        "date_iso": "2017-06-28T12:00:00Z",
+        "date": 1498651200,
+        "value": 10.19,
+    },
+    {
+        "lat": 37.75,
+        "lon": -122.37,
+        "date_iso": "2017-06-29T12:00:00Z",
+        "date": 1498737600,
+        "value": 10.2,
+    },
+    {
+        "lat": 37.75,
+        "lon": -122.37,
+        "date_iso": "2017-06-30T12:00:00Z",
+        "date": 1498824000,
+        "value": 9.01,
+    },
+    {
+        "lat": 37.75,
+        "lon": -122.37,
+        "date_iso": "2017-07-01T12:00:00Z",
+        "date": 1498910400,
+        "value": 9.46,
+    },
+    {
+        "lat": 37.75,
+        "lon": -122.37,
+        "date_iso": "2017-07-02T12:00:00Z",
+        "date": 1498996800,
+        "value": 10.16,
+    },
+    {
+        "lat": 37.75,
+        "lon": -122.37,
+        "date_iso": "2017-07-03T12:00:00Z",
+        "date": 1499083200,
+        "value": 9.85,
+    },
+    {
+        "lat": 37.75,
+        "lon": -122.37,
+        "date_iso": "2017-07-04T12:00:00Z",
+        "date": 1499169600,
+        "value": 10.05,
+    },
+]
+
+CACHE_LOCATION = {
+        "name": "City of London",
+        "local_names": {
+            "ar": "مدينة لندن",
+            "ascii": "City of London",
+            "bg": "Сити",
+            "ca": "La City",
+            "de": "London City",
+            "el": "Σίτι του Λονδίνου",
+            "en": "City of London",
+            "fa": "سیتی لندن",
+            "feature_name": "City of London",
+            "fi": "Lontoon City",
+            "fr": "Cité de Londres",
+            "gl": "Cidade de Londres",
+            "he": "הסיטי של לונדון",
+            "hi": "सिटी ऑफ़ लंदन",
+            "id": "Kota London",
+            "it": "Londra",
+            "ja": "シティ・オブ・ロンドン",
+            "la": "Civitas Londinium",
+            "lt": "Londono Sitis",
+            "pt": "Cidade de Londres",
+            "ru": "Сити",
+            "sr": "Сити",
+            "th": "นครลอนดอน",
+            "tr": "Londra Şehri",
+            "vi": "Thành phố Luân Đôn",
+            "zu": "Idolobha weLondon",
+        },
+        "lat": 51.5128,
+        "lon": -0.0918,
+        "country": "GB",
+        "state": "",
+}
+
