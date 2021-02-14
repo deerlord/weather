@@ -1,7 +1,7 @@
 from enum import Enum
 from typing import List
 
-from openweathermap import models
+from openweathermap import models  # type: ignore
 from pydantic import BaseModel
 
 

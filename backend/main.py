@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from starlette.responses import StreamingResponse  # type: ignore
 
 from backend import clients
-from backend.models import Measurement
+from backend.models.influxdb import Measurement
 
 app = FastAPI()
 

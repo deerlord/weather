@@ -1,10 +1,10 @@
 from typing import Any, Dict
 
-from fastapi import FastAPI
-from openweathermap import api
+from fastapi import FastAPI, HTTPException
+from openweathermap import api  # type: ignore
 from starlette.responses import StreamingResponse  # type: ignore
 
-from backend import cache, clients
+from backend import cache, clients, settings
 from backend.models import weather as models
 
 app = FastAPI()
@@ -22,10 +22,10 @@ async def current(lat: float, lon: float):
     """
     see https://openweathermap.org/widgets-constructor for example
     """
-    client = api.OpenWeatherData(appid="")  # pull appid from settings
+    client = api.OpenWeatherData(appid=settings.OPEN_WEATHER_MAP_API_KEY)
     data = await client.one_call(
-        lat=lat, lon=lon, units="imperial"
-    )  # pull units from settings
+        lat=lat, lon=lon, units=settings.OPEN_WEATHER_MAP_UNITS
+    )
     air_pollution_forecast = await client.air_pollution_forecast(lat=lat, lon=lon)
     uvi_forecast = await client.uvi_forecast(lat=lat, lon=lon, cnt=8)
     location = await cache.location(lat=lat, lon=lon)
@@ -40,9 +40,10 @@ async def current(lat: float, lon: float):
 
 @app.get("/weather/map/{layer}")
 async def map(layer: models.MapLayer, lat: float, lon: float, zoom: int):
-    client = api.OpenWeatherMap(appid="")  # pull appid from settings
+    client = api.OpenWeatherMap(appid=settings.OPEN_WEATHER_MAP_API_KEY)
     method = getattr(client, layer)
     # find tile from lat/lon
     x = 0
     y = 0
-    return method(x=x, y=y, z=zoom).dict()
+    result = method(x=x, y=y, z=zoom)
+    return StreamingResponse(result, media_type="image/png")
