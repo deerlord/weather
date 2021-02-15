@@ -23,8 +23,8 @@ class Forecast(BaseModel):
     uvi: List[models.Uvi]
 
 
-class WidgetResponseModel(BaseModel):
-    temps: List[int]
+class WidgetOverviewResponse(BaseModel):
+    temps: List[float]
     wind: Wind
     weather: models.Weather
     forecast: Forecast

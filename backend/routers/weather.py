@@ -27,7 +27,7 @@ async def map(layer: models.MapLayer, lat: float, lon: float, zoom: int):
     return StreamingResponse(result, media_type="image/png")
 
 
-@router.get("/widget/overview", response_model=models.WidgetResponseModel)
+@router.get("/widget/overview", response_model=models.WidgetOverviewResponse)
 async def widget_overview(lat: float, lon: float):
     client = api.OpenWeatherData(appid=settings.OPEN_WEATHER_MAP_API_KEY)
     one_call = await client.one_call(
