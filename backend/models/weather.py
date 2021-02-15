@@ -10,13 +10,6 @@ class Wind(BaseModel):
     degree: str
 
 
-class Weekly(BaseModel):
-    dt: int
-    high: int
-    low: int
-    icon: str
-
-
 class Forecast(BaseModel):
     weather: List[models.Daily]
     air_pollution: List[models.AirPollution]
