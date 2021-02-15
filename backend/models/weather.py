@@ -17,15 +17,10 @@ class Weekly(BaseModel):
     icon: str
 
 
-class Uvi(BaseModel):
-    dt: int
-    value: float
-
-
 class Forecast(BaseModel):
     weather: List[models.Daily]
     air_pollution: List[models.AirPollution]
-    uvi: List[Uvi]
+    uvi: List[models.Uvi]
 
 
 class WidgetResponseModel(BaseModel):
@@ -33,13 +28,6 @@ class WidgetResponseModel(BaseModel):
     wind: Wind
     weather: models.Weather
     forecast: Forecast
-
-
-class WidgetOverviewOld(BaseModel):
-    data: models.OneCallAPIResponse
-    air_pollution_forecast: List[models.AirPollution]
-    uvi_forecast: List[models.UviAPIResponse]
-    location: models.GeocodingAPIResponse
 
 
 class MapLayer(str, Enum):

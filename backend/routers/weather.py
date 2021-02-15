@@ -37,7 +37,6 @@ async def widget_overview(lat: float, lon: float):
     uvi_forecast = await client.uvi_forecast(lat=lat, lon=lon, cnt=8)
     location = await cache.location(lat=lat, lon=lon)
     temps = [hour.temp for hour in one_call.hourly]
-    uvis = [{'value': uvi.uvi, 'dt': uvi.dt} for uvi in uvi_forecast.list]
     result = {
         "temps": [one_call.current.temp] + temps,
         "wind": {
@@ -48,7 +47,7 @@ async def widget_overview(lat: float, lon: float):
         "forecast": {
             "weather": one_call.daily,
             "air_pollution": air_pollution_forecast.list,
-            "uvi": uvis,
+            "uvi": uvi_forecast.list
         },
     }
     return result
