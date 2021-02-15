@@ -12,4 +12,3 @@ class Measurement(str, Enum):
     hourly_weather = "hourly_weather"
     minutely = "minutely"
     daily = "daily"
-

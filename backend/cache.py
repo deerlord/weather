@@ -10,32 +10,20 @@ from backend import settings
 
 
 @dataclass
-class Cacheable:
-    co: Callable
-    done = False
-    result = None
-    lock = asyncio.Lock()
+class async_cache:
+    _cache = dict
 
-    def __await__(self):
-        with (yield from self.lock):
-            if self.done:
-                return self.result
-            self.result = yield from self.co.__await__()
-            self.done = True
-            return self.result
+    def __call__(self, func: Callable):
+        @wraps(func)
+        async def wrapper(*args, **kwargs):
+            arg_sig = f"{args},{kwargs}"
+            if arg_sig not in self._cache:
+                self._cache[arg_sig] = await func(*args, **kwargs)
+            return self._cache[arg_sig]
 
-
-def cacheable(func: Callable):
-    @wraps(func)
-    def wrapped(*args, **kwargs):
-        r = func(*args, **kwargs)
-        return Cacheable(r)
-
-    return wrapped
+        return wrapper
 
 
-@lru_cache(maxsize=16)
-@cacheable
 async def location(lat: float, lon: float):
     client = api.OpenWeatherGeocoding(appid=settings.OPEN_WEATHER_MAP_API_KEY)
     result = await client.reverse(lat=lat, lon=lon, limit=1)
