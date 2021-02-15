@@ -47,7 +47,7 @@ async def widget_overview(lat: float, lon: float):
         "forecast": {
             "weather": one_call.daily,
             "air_pollution": air_pollution_forecast.list,
-            "uvi": uvi_forecast.list
+            "uvi": uvi_forecast.list,
         },
     }
     return result
