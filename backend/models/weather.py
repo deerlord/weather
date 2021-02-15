@@ -18,7 +18,7 @@ class Weekly(BaseModel):
 
 
 class Uvi(BaseModel):
-    date: int
+    dt: int
     value: float
 
 
