@@ -1,6 +1,5 @@
 from backend.models import weather
 
-
 WIDGET_OVERVIEW_RESPONSE = {
     "temps": [293.28, 293.28],
     "wind": {"speed": 4.6, "degree": 310},

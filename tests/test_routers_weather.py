@@ -33,4 +33,6 @@ class TestWeatherEndpoints(TestCase):
         self, location_mock, uvi_forecast_mock, air_pollution_mock, one_call_mock
     ):
         result = asyncio.run(weather.widget_overview(lat=0.0, lon=0.0))
+        model = w_models.WidgetOverviewResponse(**result)
+        print(model.dict())
         self.assertDictEqual(result, router_fixtures.WIDGET_OVERVIEW_RESPONSE)
