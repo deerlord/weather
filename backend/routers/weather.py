@@ -1,4 +1,5 @@
 from typing import Any, Dict
+import io
 
 from fastapi import APIRouter, FastAPI, HTTPException
 from openweathermap import api  # type: ignore
@@ -23,8 +24,9 @@ async def map(layer: models.MapLayer, lat: float, lon: float, zoom: int):
     # find tile from lat/lon
     x = 0
     y = 0
-    result = method(x=x, y=y, z=zoom)
-    return StreamingResponse(result, media_type="image/png")
+    result = await method(x=x, y=y, z=zoom)
+    data = io.BytesIO(result)
+    return StreamingResponse(data, media_type="image/png")
 
 
 @router.get("/widget/overview", response_model=models.WidgetOverviewResponse)
